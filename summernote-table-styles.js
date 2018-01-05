@@ -172,12 +172,10 @@
         value,
         label,
         isExclusive,
-        isDefault = false
       ) {
         var item =
           '<li><a href="#" class="' +
           (isExclusive ? "exclusive-item" : "inclusive-item") +
-          (isDefault ? " checked" : "") +
           '" ' +
           'style="display: block;" data-value="' +
           value +
