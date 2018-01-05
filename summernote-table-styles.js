@@ -99,7 +99,6 @@
         const rng = context.invoke("createRange", $editable);
         const dom = $.summernote.dom;
         if (rng.isCollapsed() && rng.isOnCell()) {
-          context.invoke("beforeCommand");
           var $table = $(dom.ancestor(rng.commonAncestor(), dom.isTable));
           var $listItems = $dropdownButton.next().find("a");
           self.updateMenuState(
@@ -135,7 +134,7 @@
 
       self.updateStyles = function($node, chosenItem, exclusiveStyles) {
         var cssClass = $(chosenItem).data("value");
-
+        context.invoke("beforeCommand");
         // Exclusive class: only one can be applied at a time
         if ($.inArray(cssClass, exclusiveStyles) != -1) {
           $node.removeClass(exclusiveStyles.join(" "));
