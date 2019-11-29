@@ -70,8 +70,9 @@
             ),
             callback: function($dropdown) {
               $dropdown.find("a").each(function() {
-                $(this).click(function() {
+                $(this).click(function(e) {
                   self.updateTableStyles(this);
+                  e.preventDefault();
                 });
               });
             }
