@@ -1,6 +1,6 @@
 /* https://github.com/tylerecouture/summernote-lists  */
 
-(function(factory) {
+(function (factory) {
   /* global define */
   if (typeof define === "function" && define.amd) {
     // AMD. Register as an anonymous module.
@@ -12,7 +12,7 @@
     // Browser globals
     factory(window.jQuery);
   }
-})(function($) {
+})(function ($) {
   $.extend(true, $.summernote.lang, {
     "en-US": {
       tableStyles: {
@@ -32,16 +32,16 @@
 
   // Extends plugins for emoji plugin.
   $.extend($.summernote.plugins, {
-    tableStyles: function(context) {
+    tableStyles: function (context) {
       var self = this,
         ui = $.summernote.ui,
         options = context.options,
-        lang = options.langInfo;
-      ($editor = context.layoutInfo.editor),
-        ($editable = context.layoutInfo.editable);
-      editable = $editable[0];
+        lang = options.langInfo,
+        $editor = context.layoutInfo.editor,
+        $editable = context.layoutInfo.editable,
+        editable = $editable[0];
 
-      context.memo("button.tableStyles", function() {
+      context.memo("button.tableStyles", function () {
         var button = ui.buttonGroup([
           ui.button({
             className: "dropdown-toggle",
@@ -53,8 +53,8 @@
             data: {
               toggle: "dropdown"
             },
-            callback: function($dropdownBtn) {
-              $dropdownBtn.click(function() {
+            callback: function ($dropdownBtn) {
+              $dropdownBtn.click(function () {
                 self.updateTableMenuState($dropdownBtn);
               });
             }
@@ -68,9 +68,9 @@
               options.tableStyles.stylesInclusive,
               lang.tableStyles.stylesInclusive
             ),
-            callback: function($dropdown) {
-              $dropdown.find("a").each(function() {
-                $(this).click(function(e) {
+            callback: function ($dropdown) {
+              $dropdown.find("a").each(function () {
+                $(this).click(function (e) {
                   self.updateTableStyles(this);
                   e.preventDefault();
                 });
@@ -81,7 +81,7 @@
         return button.render();
       });
 
-      self.updateTableStyles = function(chosenItem) {
+      self.updateTableStyles = function (chosenItem) {
         const rng = context.invoke("createRange", $editable);
         const dom = $.summernote.dom;
         if (rng.isCollapsed() && rng.isOnCell()) {
@@ -96,12 +96,12 @@
       };
 
       /* Makes sure the check marks are on the currently applied styles */
-      self.updateTableMenuState = function($dropdownButton) {
+      self.updateTableMenuState = function ($dropdownButton) {
         const rng = context.invoke("createRange", $editable);
         const dom = $.summernote.dom;
         if (rng.isCollapsed() && rng.isOnCell()) {
           var $table = $(dom.ancestor(rng.commonAncestor(), dom.isTable));
-          var $listItems = $dropdownButton.next().find("a");
+          var $listItems = $dropdownButton.parent().find("div.dropdown-menu a");
           self.updateMenuState(
             $table,
             $listItems,
@@ -113,9 +113,10 @@
       /* The following functions might be turnkey in other menu lists
             with exclusive and inclusive items that toggle CSS classes. */
 
-      self.updateMenuState = function($node, $listItems, exclusiveStyles) {
+      self.updateMenuState = function ($node, $listItems, exclusiveStyles) {
         var hasAnExclusiveStyle = false;
-        $listItems.each(function() {
+        console.log($listItems)
+        $listItems.each(function () {
           var cssClass = $(this).data("value");
           if ($node.hasClass(cssClass)) {
             $(this).addClass("checked");
@@ -133,10 +134,10 @@
         }
       };
 
-      self.updateStyles = function($node, chosenItem, exclusiveStyles) {
+      self.updateStyles = function ($node, chosenItem, exclusiveStyles) {
         var cssClass = $(chosenItem).data("value");
         context.invoke("beforeCommand");
-        // Exclusive class: only one can be applied at a time
+        // Exclusive class: only one can be applied one at a time
         if ($.inArray(cssClass, exclusiveStyles) != -1) {
           $node.removeClass(exclusiveStyles.join(" "));
           $node.addClass(cssClass);
@@ -147,7 +148,7 @@
         context.invoke("afterCommand");
       };
 
-      self.generateListItems = function(
+      self.generateListItems = function (
         exclusiveStyles,
         exclusiveLabels,
         inclusiveStyles,
@@ -169,7 +170,7 @@
         return list;
       };
 
-      self.getListItem = function(
+      self.getListItem = function (
         value,
         label,
         isExclusive,
