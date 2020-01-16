@@ -101,7 +101,7 @@
         const dom = $.summernote.dom;
         if (rng.isCollapsed() && rng.isOnCell()) {
           var $table = $(dom.ancestor(rng.commonAncestor(), dom.isTable));
-          var $listItems = $dropdownButton.parent().find("div.dropdown-menu a");
+          var $listItems = $dropdownButton.parent().find(".dropdown-menu a");
           self.updateMenuState(
             $table,
             $listItems,
